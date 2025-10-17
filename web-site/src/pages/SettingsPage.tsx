@@ -336,17 +336,17 @@ export default function SettingsPage() {
     {
       key: 'profile',
       icon: <User className="w-4 h-4" />,
-      title: '账户信息',
+      title: t('settings.navigation.profile'),
     },
     {
       key: 'security',
       icon: <Shield className="w-4 h-4" />,
-      title: '安全设置',
+      title: t('settings.navigation.security'),
     },
     {
       key: 'preferences',
       icon: <Settings className="w-4 h-4" />,
-      title: '偏好设置',
+      title: t('settings.navigation.preferences'),
     }
   ]
 
@@ -357,8 +357,8 @@ export default function SettingsPage() {
         return (
           <div className="space-y-6">
             <div className="pb-6 border-b">
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-3">账户信息</h2>
-              <p className="text-lg text-muted-foreground">管理您的个人资料和基本信息</p>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-3">{t('settings.profile.title')}</h2>
+              <p className="text-lg text-muted-foreground">{t('settings.profile.subtitle')}</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -472,10 +472,10 @@ export default function SettingsPage() {
                           name="name"
                           render={({ field }) => (
                             <FormItem className="space-y-3">
-                              <FormLabel className="text-sm font-medium text-foreground">用户名</FormLabel>
+                              <FormLabel className="text-sm font-medium text-foreground">{t('settings.profile.form.username')}</FormLabel>
                               <FormControl>
                                 <Input 
-                                  placeholder="请输入用户名" 
+                                  placeholder={t('settings.profile.form.username_placeholder')} 
                                   className="h-11 border-2 focus:border-primary transition-colors" 
                                   {...field} 
                                 />
@@ -489,10 +489,10 @@ export default function SettingsPage() {
                           name="email"
                           render={({ field }) => (
                             <FormItem className="space-y-3">
-                              <FormLabel className="text-sm font-medium text-foreground">邮箱地址</FormLabel>
+                              <FormLabel className="text-sm font-medium text-foreground">{t('settings.profile.form.email')}</FormLabel>
                               <FormControl>
                                 <Input 
-                                  placeholder="请输入邮箱地址" 
+                                  placeholder={t('settings.profile.form.email_placeholder')} 
                                   className="h-11 border-2 focus:border-primary transition-colors" 
                                   {...field} 
                                 />
@@ -511,12 +511,12 @@ export default function SettingsPage() {
                           {loading ? (
                             <>
                               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                              保存中...
+                              {t('settings.profile.form.saving')}
                             </>
                           ) : (
                             <>
                               <Save className="w-4 h-4 mr-2" />
-                              保存更改
+                              {t('settings.profile.form.save_changes')}
                             </>
                           )}
                         </Button>
@@ -533,8 +533,8 @@ export default function SettingsPage() {
         return (
           <div className="space-y-6">
             <div className="pb-6 border-b">
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-3">安全设置</h2>
-              <p className="text-lg text-muted-foreground">管理您的账户安全和密码设置</p>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-3">{t('settings.security.title')}</h2>
+              <p className="text-lg text-muted-foreground">{t('settings.security.subtitle')}</p>
             </div>
 
             <div className="max-w-3xl">
@@ -542,10 +542,10 @@ export default function SettingsPage() {
                 <CardHeader className="pb-6">
                   <CardTitle className="text-xl font-semibold flex items-center gap-2">
                     <Shield className="w-5 h-5 text-primary" />
-                    修改密码
+                    {t('settings.security.change_password')}
                   </CardTitle>
                   <CardDescription className="text-base mt-2">
-                    定期更改密码有助于保护您的账户安全。请确保使用强密码。
+                    {t('settings.security.change_password_desc')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -557,11 +557,11 @@ export default function SettingsPage() {
                           name="currentPassword"
                           render={({ field }) => (
                             <FormItem className="space-y-3">
-                              <FormLabel className="text-sm font-medium text-foreground">当前密码</FormLabel>
+                              <FormLabel className="text-sm font-medium text-foreground">{t('settings.security.form.current_password')}</FormLabel>
                               <FormControl>
                                 <Input 
                                   type="password" 
-                                  placeholder="请输入当前密码" 
+                                  placeholder={t('settings.security.form.current_password_placeholder')} 
                                   className="h-11 border-2 focus:border-primary transition-colors" 
                                   {...field} 
                                 />
@@ -577,17 +577,17 @@ export default function SettingsPage() {
                             name="newPassword"
                             render={({ field }) => (
                               <FormItem className="space-y-3">
-                                <FormLabel className="text-sm font-medium text-foreground">新密码</FormLabel>
+                                <FormLabel className="text-sm font-medium text-foreground">{t('settings.security.form.new_password')}</FormLabel>
                                 <FormControl>
                                   <Input 
                                     type="password" 
-                                    placeholder="请输入新密码" 
+                                    placeholder={t('settings.security.form.new_password_placeholder')} 
                                     className="h-11 border-2 focus:border-primary transition-colors" 
                                     {...field} 
                                   />
                                 </FormControl>
                                 <FormDescription className="text-xs text-muted-foreground">
-                                  密码必须至少8个字符，包含大小写字母和数字
+                                  {t('settings.security.form.password_requirements')}
                                 </FormDescription>
                                 <FormMessage />
                               </FormItem>
@@ -598,11 +598,11 @@ export default function SettingsPage() {
                             name="confirmPassword"
                             render={({ field }) => (
                               <FormItem className="space-y-3">
-                                <FormLabel className="text-sm font-medium text-foreground">确认新密码</FormLabel>
+                                <FormLabel className="text-sm font-medium text-foreground">{t('settings.security.form.confirm_password')}</FormLabel>
                                 <FormControl>
                                   <Input 
                                     type="password" 
-                                    placeholder="请再次输入新密码" 
+                                    placeholder={t('settings.security.form.confirm_password_placeholder')} 
                                     className="h-11 border-2 focus:border-primary transition-colors" 
                                     {...field} 
                                   />
@@ -623,12 +623,12 @@ export default function SettingsPage() {
                           {loading ? (
                             <>
                               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                              更新中...
+                              {t('settings.security.form.updating')}
                             </>
                           ) : (
                             <>
                               <Save className="w-4 h-4 mr-2" />
-                              更新密码
+                              {t('settings.security.form.update_password')}
                             </>
                           )}
                         </Button>
@@ -645,18 +645,18 @@ export default function SettingsPage() {
         return (
           <div className="space-y-6">
             <div className="pb-6 border-b">
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-3">偏好设置</h2>
-              <p className="text-lg text-muted-foreground">自定义您的应用体验和通知偏好</p>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-3">{t('settings.preferences.title')}</h2>
+              <p className="text-lg text-muted-foreground">{t('settings.preferences.subtitle')}</p>
             </div>
             <div className="max-w-3xl">
               <Card className="border-0 shadow-lg">
                 <CardHeader className="pb-6">
                   <CardTitle className="text-xl font-semibold flex items-center gap-2">
                     <Settings className="w-5 h-5 text-primary" />
-                    应用设置
+                    {t('settings.preferences.app_settings')}
                   </CardTitle>
                   <CardDescription className="text-base mt-2">
-                    管理您的应用偏好设置和通知选项
+                    {t('settings.preferences.app_settings_desc')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -665,10 +665,10 @@ export default function SettingsPage() {
                       <div className="space-y-1">
                         <Label className="text-base font-medium cursor-pointer flex items-center gap-2">
                           <Mail className="w-4 h-4" />
-                          邮件通知
+                          {t('settings.preferences.notifications.email_notifications')}
                         </Label>
                         <p className="text-sm text-muted-foreground">
-                          接收重要更新和通知邮件
+                          {t('settings.preferences.notifications.email_notifications_desc')}
                         </p>
                       </div>
                       <Switch 
@@ -682,10 +682,10 @@ export default function SettingsPage() {
                       <div className="space-y-1">
                         <Label className="text-base font-medium cursor-pointer flex items-center gap-2">
                           <Bell className="w-4 h-4" />
-                          桌面通知
+                          {t('settings.preferences.notifications.desktop_notifications')}
                         </Label>
                         <p className="text-sm text-muted-foreground">
-                          在桌面显示实时通知
+                          {t('settings.preferences.notifications.desktop_notifications_desc')}
                         </p>
                       </div>
                       <Switch 
@@ -699,10 +699,10 @@ export default function SettingsPage() {
                       <div className="space-y-1">
                         <Label className="text-base font-medium cursor-pointer flex items-center gap-2">
                           <Save className="w-4 h-4" />
-                          自动保存
+                          {t('settings.preferences.general.auto_save')}
                         </Label>
                         <p className="text-sm text-muted-foreground">
-                          自动保存您的工作进度
+                          {t('settings.preferences.general.auto_save_desc')}
                         </p>
                       </div>
                       <Switch 
@@ -717,10 +717,10 @@ export default function SettingsPage() {
                       <div className="space-y-1">
                         <Label className="text-base font-medium cursor-pointer flex items-center gap-2">
                           <Globe className="w-4 h-4" />
-                          界面语言
+                          {t('settings.preferences.general.language')}
                         </Label>
                         <p className="text-sm text-muted-foreground">
-                          选择您的首选界面语言
+                          {t('settings.preferences.general.language_desc')}
                         </p>
                       </div>
                       <Select
@@ -728,7 +728,7 @@ export default function SettingsPage() {
                         onValueChange={(value) => handleSettingChange('language', value)}
                       >
                         <SelectTrigger className="w-40">
-                          <SelectValue placeholder="选择语言" />
+                          <SelectValue placeholder={t('settings.preferences.general.language_placeholder')} />
                         </SelectTrigger>
                         <SelectContent>
                           {languages.map((lang) => (
@@ -747,7 +747,7 @@ export default function SettingsPage() {
                   <div className="pt-4 border-t">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Settings className="w-4 h-4" />
-                      <span>设置将自动保存</span>
+                      <span>{t('settings.preferences.auto_save_note')}</span>
                     </div>
                   </div>
                 </CardContent>

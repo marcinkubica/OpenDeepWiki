@@ -324,9 +324,11 @@
     }
   },
   "settings": {
-    "title": "System Settings",
-    "description": "Configure and manage system functionality settings",
-    "subtitle": "Manage your account and preferences",
+    "navigation": {
+      "profile": "Account Info",
+      "security": "Security Settings",
+      "preferences": "Preferences"
+    },
     "loadFailed": "Failed to load settings",
     "saveSuccess": "Settings saved successfully",
     "saveFailed": "Failed to save settings",
@@ -400,11 +402,6 @@
       "jwt": "JWT Configuration",
       "backup": "Backup & Recovery",
       "logging": "Logging Settings"
-    },
-    "navigation": {
-      "profile": "Account Info",
-      "security": "Security Settings",
-      "preferences": "Preferences"
     },
     "profile": {
       "title": "Account Information",
