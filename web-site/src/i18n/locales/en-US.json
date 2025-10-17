@@ -589,6 +589,30 @@
         "user_growth": "User Growth",
         "repo_activity": "Repository Activity",
         "role_distribution": "Role Distribution"
+      },
+      "status": {
+        "completed": "Completed",
+        "processing": "Processing",
+        "pending": "Pending",
+        "failed": "Failed"
+      },
+      "errors": {
+        "load_failed": "Failed to load data",
+        "load_failed_desc": "Unable to retrieve dashboard data, please check network connection or try again later",
+        "network_error": "Network Error",
+        "server_error": "Server Error",
+        "timeout_error": "Request Timeout"
+      },
+      "trends": {
+        "user_trends": "User Trends",
+        "repository_trends": "Repository Trends",
+        "document_trends": "Document Trends",
+        "view_trends": "View Trends",
+        "performance_trends_24h": "Performance Trends (24h)",
+        "past_30_days": "Past 30 days",
+        "past_24_hours": "Past 24 hours",
+        "compared_to_last_month": "Compared to last month",
+        "compared_to_last_week": "Compared to last week"
       }
     },
     "users": {

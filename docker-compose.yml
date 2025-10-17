@@ -1,24 +1,29 @@
 ﻿services:
   koalawiki:
-    image: crpi-j9ha7sxwhatgtvj4.cn-shenzhen.personal.cr.aliyuncs.com/koala-ai/koala-wiki
+    build:
+      context: .
+      dockerfile: src/KoalaWiki/Dockerfile
     environment:
       - KOALAWIKI_REPOSITORIES=/repositories
-      - TASK_MAX_SIZE_PER_USER=5 # 每个用户AI处理文档生成的最大数量
-      - REPAIR_MERMAID=1 # 是否进行Mermaid修复，1修复，其余不修复
-      - CHAT_MODEL=DeepSeek-V3 # 必须要支持function的模型
-      - ANALYSIS_MODEL= # 分析模型，用于生成仓库目录结构，这个很重要，模型越强，生成的目录结构越好，为空则使用ChatModel
-                        # 分析模型建议使用GPT-4.1  , CHAT模型可以用其他模型生成文档,以节省 token 开销
-      - CHAT_API_KEY=sk-ovC9QiGmsjCIWwKOa07VqTd3YDe1gbEWfG8KbP #您的APIkey
-      - LANGUAGE= # 设置生成语言默认为“中文”, 英文可以填写 English 或 英文
-      - ENDPOINT=https://api.token-ai.cn/v1
+      - TASK_MAX_SIZE_PER_USER=5 # Maximum parallel document generation tasks per user for AI
+      - REPAIR_MERMAID=1 # Whether to perform Mermaid repair (1 = yes, 0 = no)
+      - CHAT_MODEL=grok-code-fast-1 # AI model (must support function calling)
+      - ANALYSIS_MODEL=grok-code-fast-1 # Analysis model for generating repository directory structure
+      - ENDPOINT=http://host.orb.internal:4141 # Local Anthropic-compatible endpoint
+      # - CHAT_MODEL=gpt-oss:20b # AI model (must support function calling)
+      # - ANALYSIS_MODEL=gpt-oss:20b # Analysis model for generating repository directory structure
+      # - ENDPOINT=http://host.orb.internal:11434/v1
+      - CHAT_API_KEY=dummy-local-api-key-for-testing
+      - LANGUAGE=English # Default generation language
+      - MODEL_PROVIDER=OpenAI # Model provider (OpenAI, AzureOpenAI)
       - DB_TYPE=sqlite
       - DB_CONNECTION_STRING=Data Source=/data/KoalaWiki.db
-      - UPDATE_INTERVAL=5 # 仓库增量更新间隔，单位天
-      - EnableSmartFilter=true # 是否启用智能过滤，这可能影响AI得到仓库的文件目录
-      - ENABLE_INCREMENTAL_UPDATE=true # 是否启用增量更新
-      - ENABLE_CODED_DEPENDENCY_ANALYSIS=false # 是否启用代码依赖分析？这可能会对代码的质量产生影响。
-      - ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false # 是否启用MCP Prompt生成
-      - ENABLE_WAREHOUSE_DESCRIPTION_TASK=false # 是否启用仓库Description生成
+      - UPDATE_INTERVAL=5 # Repository incremental update interval (days)
+      - EnableSmartFilter=true # Enable smart filtering
+      - ENABLE_INCREMENTAL_UPDATE=true # Enable incremental updates
+      - ENABLE_CODED_DEPENDENCY_ANALYSIS=false # Enable code dependency analysis
+      - ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false # Enable MCP Prompt generation
+      - ENABLE_WAREHOUSE_DESCRIPTION_TASK=false # Enable repository Description generation
       - OTEL_SERVICE_NAME=koalawiki
       - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18889
@@ -27,10 +32,7 @@
     volumes:
       - ./repositories:/app/repositories
       - ./data:/data
-    build:
-      context: .
-      dockerfile: src/KoalaWiki/Dockerfile
-  
+
   aspire-dashboard:
     image: mcr.microsoft.com/dotnet/aspire-dashboard
     container_name: aspire-dashboard
@@ -38,5 +40,5 @@
     ports:
       - "18888:18888"
     environment:
-      - TZ=Asia/Shanghai
+      - TZ=Europe/London
       - Dashboard:ApplicationName=Aspire

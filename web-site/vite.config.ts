@@ -42,18 +42,18 @@ export default defineConfig({
       },
     },
   },
-  build: {
-    outDir: '../src/KoalaWiki/wwwroot',
-    assetsDir: 'static',
-    // 生成 source map（开发阶段可以设为 true）
-    sourcemap: false,
-    // 启用 CSS 代码分割
-    cssCodeSplit: true,
-    // 设置 chunk 大小警告限制
-    chunkSizeWarningLimit: 1000, // 1MB
-    // 静态资源内联阈值
-    assetsInlineLimit: 4096, // 4KB
-  },
+   build: {
+     outDir: 'dist',
+     assetsDir: 'static',
+     // 生成 source map（开发阶段可以设为 true）
+     sourcemap: false,
+     // 启用 CSS 代码分割
+     cssCodeSplit: true,
+     // 设置 chunk 大小警告限制
+     chunkSizeWarningLimit: 1000, // 1MB
+     // 静态资源内联阈值
+     assetsInlineLimit: 4096, // 4KB
+   },
   // 定义全局常量
   define: {
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version || '1.0.0'),

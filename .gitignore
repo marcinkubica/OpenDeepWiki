@@ -494,3 +494,7 @@ $RECYCLE.BIN/
 *lock.json
 seo-web
 /src/KoalaWiki/wwwroot
+
+# Docker Compose volumes
+data/
+repositories/

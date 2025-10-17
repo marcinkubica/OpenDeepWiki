@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 USER root
 WORKDIR /app
 EXPOSE 8080
@@ -16,8 +16,8 @@ COPY ["KoalaWiki.Domains/KoalaWiki.Domains.csproj", "KoalaWiki.Domains/"]
 COPY ["Provider/KoalaWiki.Provider.PostgreSQL/KoalaWiki.Provider.PostgreSQL.csproj", "Provider/KoalaWiki.Provider.PostgreSQL/"]
 COPY ["KoalaWiki.Core/KoalaWiki.Core.csproj", "KoalaWiki.Core/"]
 COPY ["Provider/KoalaWiki.Provider.Sqlite/KoalaWiki.Provider.Sqlite.csproj", "Provider/KoalaWiki.Provider.Sqlite/"]
-COPY ["Provider/KoalaWiki.Provider.SqlServer/KoalaWiki.Provider.SqlServer.csproj", "Provider/KoalaWiki.Provider.SqlServer/"]
 COPY ["Provider/KoalaWiki.Provider.MySQL/KoalaWiki.Provider.MySQL.csproj", "Provider/KoalaWiki.Provider.MySQL/"]
+COPY ["Provider/KoalaWiki.Provider.SqlServer/KoalaWiki.Provider.SqlServer.csproj", "Provider/KoalaWiki.Provider.SqlServer/"]
 COPY ["src/KoalaWiki.ServiceDefaults/KoalaWiki.ServiceDefaults.csproj", "src/KoalaWiki.ServiceDefaults/"]
 RUN dotnet restore "src/KoalaWiki/KoalaWiki.csproj"
 COPY . .
@@ -28,7 +28,19 @@ FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./KoalaWiki.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS frontend-build
+WORKDIR /src
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && apt-get install -y nodejs
+# Copy web-site and build frontend
+COPY web-site ./web-site
+WORKDIR "/src/web-site"
+RUN npm install
+RUN npm run build
+
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+# Copy built frontend files to wwwroot
+COPY --from=frontend-build /src/web-site/dist ./wwwroot
 ENTRYPOINT ["dotnet", "KoalaWiki.dll"]
