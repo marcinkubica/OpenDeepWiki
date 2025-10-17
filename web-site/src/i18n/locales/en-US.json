@@ -330,8 +330,8 @@
       "back": "Back to Home"
     },
     "navigation": {
-      "profile": "Profile",
-      "security": "Security",
+      "profile": "Account Information",
+      "security": "Security Settings",
       "preferences": "Preferences"
     },
     "loadFailed": "Failed to load settings",
@@ -583,6 +583,31 @@
     "dashboard": {
       "title": "Dashboard",
       "overview": "System Overview",
+      "systemStatus": {
+        "title": "System Status",
+        "ai_service": "AI Service",
+        "email_service": "Email Service",
+        "file_storage": "File Storage",
+        "system_performance": "System Performance",
+        "status_healthy": "Healthy",
+        "status_warning": "Warning",
+        "status_error": "Error",
+        "warnings": "System Warnings",
+        "errors": "System Errors"
+      },
+      "activity": {
+        "title": "Recent Activity",
+        "recent_users": "Recently Registered Users",
+        "recent_repos": "Recently Created Repositories",
+        "recent_errors": "Recent Error Logs",
+        "popular_content": "Popular Content",
+        "user_activity": "User Activity Statistics",
+        "no_description": "No description available",
+        "online": "Online",
+        "offline": "Offline",
+        "growth_rate": "Growth Rate",
+        "document_count": "Document Count"
+      },
       "stats": {
         "total_users": "Total Users",
         "total_repos": "Total Repositories",
