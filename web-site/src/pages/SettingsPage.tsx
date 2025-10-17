@@ -452,15 +452,15 @@ export default function SettingsPage() {
                 </CardContent>
               </Card>
 
-              {/* 基本信息表单 */}
+              {/* {t('settings.profile.basic_info')} */}
               <Card className="lg:col-span-3 border-0 shadow-lg">
                 <CardHeader className="pb-6">
                   <CardTitle className="text-xl font-semibold flex items-center gap-2">
                     <User className="w-5 h-5 text-primary" />
-                    基本信息
+                    {t('settings.profile.basic_info')}
                   </CardTitle>
                   <CardDescription className="text-base">
-                    管理您的个人资料信息
+                    {t('settings.profile.basic_info_desc')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
