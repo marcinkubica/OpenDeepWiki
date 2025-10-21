@@ -88,14 +88,14 @@ export default function SettingsPage() {
   const navigate = useNavigate()
   const { t } = useTranslation()
   
-  // 认证检查
+  // Authentication check
   const { isAuthenticated, loading: authLoading } = useRequireAuth()
 
-  // 创建表单验证schema
+  // Create form validation schemas
   const profileFormSchema = createProfileFormSchema(t)
   const passwordFormSchema = createPasswordFormSchema(t)
 
-  // 表单实例
+  // Form instances
   const profileForm = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
@@ -125,12 +125,12 @@ export default function SettingsPage() {
     language: getCurrentLanguage(),
   })
 
-  // 如果未认证且不在加载状态，组件会被重定向，这里直接返回null
+  // If not authenticated and not loading, redirect - return null here
   if (!authLoading && !isAuthenticated) {
     return null
   }
 
-  // 获取当前用户信息
+  // Get current user information
   useEffect(() => {
     if (!isAuthenticated) return
 
@@ -139,7 +139,7 @@ export default function SettingsPage() {
         const response = await getCurrentUser()
         if (response.code === 200 && response.data) {
           const user = response.data
-          // 添加时间戳参数到头像URL以防止浏览器缓存
+          // Add timestamp parameter to avatar URL to prevent browser caching
           const timestamp = new Date().getTime()
           const avatarWithTimestamp = user.avatar ? `${user.avatar}?t=${timestamp}` : ''
           setUserInfo(user)
@@ -148,12 +148,12 @@ export default function SettingsPage() {
           profileForm.setValue('name', user.name || '')
           profileForm.setValue('email', user.email || '')
         } else {
-          toast.error('获取用户信息失败，请重新登录')
+          toast.error('Failed to fetch user information, please log in again')
           navigate('/login')
         }
       } catch (error) {
-        console.error('加载用户信息失败:', error)
-        toast.error('加载用户信息失败')
+        console.error('Failed to load user information:', error)
+        toast.error('Failed to load user information')
       }
     }
 
@@ -164,7 +164,7 @@ export default function SettingsPage() {
           setSettings(prev => ({ ...prev, ...response.data }))
         }
       } catch (error) {
-        console.error('加载用户设置失败:', error)
+        console.error('Failed to load user settings:', error)
       }
     }
 
@@ -172,7 +172,7 @@ export default function SettingsPage() {
     loadUserSettings()
   }, [isAuthenticated, profileForm, navigate])
 
-  // 处理个人信息更新
+  // Handle profile update
   const handleProfileUpdate = async (values: z.infer<typeof profileFormSchema>) => {
     if (!userInfo) return
 
@@ -187,21 +187,21 @@ export default function SettingsPage() {
 
       const response = await updateCurrentUserProfile(updateData)
       if (response.code === 200) {
-        toast.success('个人信息更新成功')
+        toast.success('Profile updated successfully')
         const updatedUser = { ...userInfo, ...updateData }
         setUserInfo(updatedUser)
       } else {
-        toast.error(response.message || '更新失败')
+        toast.error(response.message || 'Update failed')
       }
     } catch (error) {
-      console.error('更新个人信息失败:', error)
-      toast.error('更新失败，请重试')
+      console.error('Failed to update profile:', error)
+      toast.error('Update failed, please try again')
     } finally {
       setLoading(false)
     }
   }
 
-  // 处理密码修改
+  // Handle password change
   const handlePasswordChange = async (values: z.infer<typeof passwordFormSchema>) => {
     if (!userInfo) return
 
@@ -210,7 +210,7 @@ export default function SettingsPage() {
 
       const verifyResponse = await verifyPassword(values.currentPassword)
       if (verifyResponse.code !== 200 || !verifyResponse.data) {
-        toast.error('当前密码不正确')
+        toast.error('Current password is incorrect')
         return
       }
 
@@ -221,29 +221,29 @@ export default function SettingsPage() {
 
       const response = await changePassword(changePasswordData)
       if (response.code === 200) {
-        toast.success('密码修改成功')
+        toast.success('Password changed successfully')
         passwordForm.reset()
       } else {
-        toast.error(response.message || '密码修改失败')
+        toast.error(response.message || 'Failed to change password')
       }
     } catch (error) {
-      console.error('修改密码失败:', error)
-      toast.error('修改密码失败，请重试')
+      console.error('Failed to change password:', error)
+      toast.error('Failed to change password, please try again')
     } finally {
       setLoading(false)
     }
   }
 
-  // 头像上传处理
+  // Handle avatar upload
   const handleAvatarUpload = async (file: File) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif'
     if (!isJpgOrPng) {
-      toast.error('只能上传 JPG/PNG/GIF 格式的图片!')
+      toast.error('Only JPG/PNG/GIF images are allowed!')
       return false
     }
     const isLt2M = file.size / 1024 / 1024 < 2
     if (!isLt2M) {
-      toast.error('图片大小不能超过 2MB!')
+      toast.error('Image size cannot exceed 2MB!')
       return false
     }
 
@@ -255,7 +255,7 @@ export default function SettingsPage() {
         const timestamp = new Date().getTime()
         const avatarUrl = `${response.data}?t=${timestamp}`
         setAvatarUrl(avatarUrl)
-        toast.success('头像上传成功')
+        toast.success('Avatar uploaded successfully')
 
         if (userInfo) {
           const updateData: UpdateProfileRequest = {
@@ -271,11 +271,11 @@ export default function SettingsPage() {
           }
         }
       } else {
-        toast.error(response.message || '头像上传失败')
+        toast.error(response.message || 'Failed to upload avatar')
       }
     } catch (error) {
-      console.error('头像上传失败:', error)
-      toast.error('头像上传失败，请重试')
+      console.error('Failed to upload avatar:', error)
+      toast.error('Failed to upload avatar, please try again')
     } finally {
       setAvatarUploading(false)
     }
@@ -283,31 +283,31 @@ export default function SettingsPage() {
     return false
   }
 
-  // 删除头像
+  // Remove avatar
   const handleRemoveAvatar = async () => {
     try {
       setAvatarUploading(true)
       const response = await removeAvatar()
       if (response.code === 200) {
         setAvatarUrl('')
-        toast.success('头像删除成功')
+        toast.success('Avatar removed successfully')
         
         if (userInfo) {
           const updatedUser = { ...userInfo, avatar: '' }
           setUserInfo(updatedUser)
         }
       } else {
-        toast.error(response.message || '删除头像失败')
+        toast.error(response.message || 'Failed to remove avatar')
       }
     } catch (error) {
-      console.error('删除头像失败:', error)
-      toast.error('删除头像失败，请重试')
+      console.error('Failed to remove avatar:', error)
+      toast.error('Failed to remove avatar, please try again')
     } finally {
       setAvatarUploading(false)
     }
   }
 
-  // 处理设置更新
+  // Handle settings update
   const handleSettingChange = async (key: string, value: any) => {
     const newSettings = { ...settings, [key]: value }
     setSettings(newSettings)
@@ -315,23 +315,22 @@ export default function SettingsPage() {
     try {
       await updateUserSettings(newSettings)
       
-      // 特殊处理语言切换
+      // Special handling for language change
       if (key === 'language') {
         changeLanguage(value)
       }
     } catch (error) {
-      console.error('更新设置失败:', error)
-      // 回退设置
+      console.error('Failed to update settings:', error)
       setSettings(prev => ({ ...prev, [key]: !value }))
     }
   }
 
-  // 返回首页
+  // Return to home
   const handleGoHome = () => {
     navigate('/')
   }
 
-  // 侧边栏菜单项
+  // Sidebar menu items
   const menuItems = [
     {
       key: 'profile',
@@ -350,7 +349,7 @@ export default function SettingsPage() {
     }
   ]
 
-  // 渲染内容区域
+  // Render content area
   const renderContent = () => {
     switch (activeSection) {
       case 'profile':
@@ -419,15 +418,15 @@ export default function SettingsPage() {
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
-                                <AlertDialogTitle>确认删除头像</AlertDialogTitle>
+                                <AlertDialogTitle>{t('settings.profile.avatar.confirm_delete_title')}</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  确定要删除当前头像吗？此操作不可撤销。
+                                  {t('settings.profile.avatar.confirm_delete_message')}
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
-                                <AlertDialogCancel>取消</AlertDialogCancel>
+                                <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
                                 <AlertDialogAction onClick={handleRemoveAvatar}>
-                                  确认删除
+                                  {t('settings.profile.avatar.confirm_delete_button')}
                                 </AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>
@@ -442,17 +441,17 @@ export default function SettingsPage() {
                       </div>
                       <Badge variant="secondary" className="bg-green-50 text-green-700 border-green-200 hover:bg-green-100">
                         <CheckCircle className="w-3 h-3 mr-1" />
-                        已验证
+                        {t('settings.profile.avatar.verified')}
                       </Badge>
                       <p className="text-xs text-muted-foreground px-4">
-                        支持 JPG、PNG、GIF 格式，文件大小不超过 2MB
+                        {t('settings.profile.avatar.format_tip')}
                       </p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* {t('settings.profile.basic_info')} */}
+              {/* Basic Information */}
               <Card className="lg:col-span-3 border-0 shadow-lg">
                 <CardHeader className="pb-6">
                   <CardTitle className="text-xl font-semibold flex items-center gap-2">
@@ -776,8 +775,8 @@ export default function SettingsPage() {
         <div className="w-64 border-r bg-background/95 backdrop-blur-sm min-h-screen">
           <div className="p-6">
             <div className="space-y-2">
-              <h2 className="text-lg font-semibold">设置</h2>
-              <p className="text-sm text-muted-foreground">管理您的账户和偏好</p>
+              <h2 className="text-lg font-semibold">{t('settings.title')}</h2>
+              <p className="text-sm text-muted-foreground">{t('settings.common.subtitle')}</p>
             </div>
           </div>
           <nav className="space-y-2 px-4">
@@ -800,7 +799,7 @@ export default function SettingsPage() {
 
         {/* Main content */}
         <div className="flex-1">
-          {/* 顶部导航栏 */}
+          {/* Top Navigation Bar */}
           <div className="border-b bg-background/95 backdrop-blur-sm sticky top-0 z-40">
             <div className="flex items-center gap-4 px-6 py-4">
               <Button
@@ -810,22 +809,22 @@ export default function SettingsPage() {
                 className="gap-2 hover:bg-muted/50 transition-all duration-200"
               >
                 <ArrowLeft className="w-4 h-4" />
-                返回
+                {t('settings.common.back')}
               </Button>
               <Separator orientation="vertical" className="h-6" />
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">设置</h1>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">{t('settings.title')}</h1>
               </div>
             </div>
           </div>
 
-          {/* 内容区域 */}
+          {/* {t('settings.common.content_area')} */}
           <div className="flex-1 p-8 max-w-7xl mx-auto">
             {loading && (
               <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center">
                 <div className="text-center">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
-                  <p className="text-sm text-muted-foreground">更新中...</p>
+                  <p className="text-sm text-muted-foreground">{t('settings.common.updating')}</p>
                 </div>
               </div>
             )}

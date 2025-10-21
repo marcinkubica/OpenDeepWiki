@@ -324,9 +324,14 @@
     }
   },
   "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account and preferences",
+    "common": {
+      "back": "Back to Home"
+    },
     "navigation": {
-      "profile": "Account Info",
-      "security": "Security Settings",
+      "profile": "Profile",
+      "security": "Security",
       "preferences": "Preferences"
     },
     "loadFailed": "Failed to load settings",
@@ -484,8 +489,10 @@
       "auto_save_note": "Settings will be saved automatically"
     },
     "common": {
+      "subtitle": "Manage your account and preferences",
       "back": "Back",
       "updating": "Updating...",
+      "content_area": "Content Area",
       "get_user_info_failed": "Failed to get user information, please login again",
       "load_user_info_failed": "Failed to load user information"
     },
@@ -592,6 +599,21 @@
         "processing": "Processing",
         "pending": "Pending",
         "failed": "Failed"
+      },
+      "actions": {
+        "title": "Quick Actions",
+        "description": "Commonly used management operations",
+        "add_user": "Add User",
+        "add_repository": "Add Repository",
+        "manage_roles": "Manage Roles",
+        "system_settings": "System Settings",
+        "view_reports": "View Reports",
+        "view_logs": "View Logs",
+        "backup_data": "Backup Data",
+        "refresh": "Refresh",
+        "auto_refresh": "Auto Refresh",
+        "last_updated": "Last Updated",
+        "retry": "Retry"
       },
       "errors": {
         "load_failed": "Failed to load data",
